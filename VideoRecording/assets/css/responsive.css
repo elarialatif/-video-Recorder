@@ -1,0 +1,64 @@
+@media (max-width: 991px) {
+    .thumbnails {
+        width: 400px;
+    }
+
+    .myVideo-dimensions {
+        width: 400px;
+        height: 250px;
+    }
+
+    .thumbnail_img {
+        width: 100px;
+        height: 94px;
+    }
+
+    .thumbnail-details h3 {
+        font-size: 15px;
+    }
+    .vjs-record .vjs-device-button.vjs-control {
+        font-size: 2em;
+        top: 60%;
+    }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+    .myVideo-dimensions {
+        width: 250px;
+        height: 150px;
+    }
+    .right_side_header h1 {
+        font-size: 25px;
+    }
+    .thumbnails {
+        width: 250px;
+        margin-top: 3rem;
+    }
+
+    .thumbnail_img {
+        width: 50px;
+        height: 54px;
+
+    }
+
+    .vjs-record .vjs-device-button.vjs-control {
+        z-index: 2;
+        top: 77%;
+        width: 3em;
+        height: 1.5em;
+        left: 55%;
+    }
+
+    .vjs-record button.vjs-device-button.vjs-control.vjs-icon-av-perm:before,
+    .vjs-record button.vjs-device-button.vjs-control.vjs-icon-audio-perm:before,
+    .vjs-record button.vjs-device-button.vjs-control.vjs-icon-video-perm:before {
+        font-size: 1.2em;
+    }
+    .thumbnail_img:hover .thumbnail-details {
+        padding: 0;
+        top: 40%;
+    }
+    .thumbnail-details h3{
+        font-size: 10px;
+    }
+}

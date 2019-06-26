@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Video Recording </title>
+    <!-- Css Files -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/video-js.min.css" rel="stylesheet">
+    <link href="assets/css/videojs.record.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/responsive.css" rel="stylesheet">
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/video.min.js"></script>
+    <script src="assets/js/RecordRTC.js"></script>
+    <script src="assets/js/adapter.js"></script>
+    <script src="assets/js/videojs.record.js"></script>
+
+</head>
+
+<body>
+    <!-- Main Home -->
+    <div class="main_home">
+        <!-- Header -->
+        <div class="main_header"></div>
+        <!-- End Of Header -->
+        <!-- Main Content -->
+        <div class="main_content">
+            <!-- Left Main Content -->
+            <div class="content_left_side"></div>
+            <!-- End Of Left Main Content -->
+            <!-- Right Main Content -->
+            <div class="content_right_side">
+                <!-- Right Main Content Header -->
+                <div class="right_side_header">
+                    <h1>The Video Title</h1>
+                </div>
+                <!-- End Of Right Main Content Header -->
+                <!-- Video -->
+                <div class="record_video">
+                    <video id="myVideo" class="video-js vjs-default-skin" poster="assets/img/man.jpg"></video>
+                    <!-- Thumbnails -->
+                    <div class="thumbnails">
+                        <div class="thumbnail_img">
+                            <a href="" target="_blank">
+                                <div class="thumbnail-overlay"></div>
+                                <img class="thumbnail-image" src="assets/img/thumbnail.png">
+                                <div class="thumbnail-details fadeIn-bottom">
+                                    <h3 class="thumbnail-title">Hover</h3>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="thumbnail_img">
+                            <a href="" target="_blank">
+                                <div class="thumbnail-overlay"></div>
+                                <img class="thumbnail-image" src="assets/img/thumbnail.png">
+                                <div class="thumbnail-details fadeIn-bottom">
+                                    <h3 class="thumbnail-title">Hover</h3>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="thumbnail_img">
+                            <a href="" target="_blank">
+                                <div class="thumbnail-overlay"></div>
+                                <img class="thumbnail-image" src="assets/img/thumbnail.png">
+                                <div class="thumbnail-details fadeIn-bottom">
+                                    <h3 class="thumbnail-title">Hover</h3>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <!-- End Of Thumbnails -->
+                </div>
+                <!-- End Of Video -->
+            </div>
+            <!-- End Of Right Main Content -->
+        </div>
+        <!-- End Of Main Content -->
+    </div>
+    <!-- End Of Main Home -->
+
+
+
+    <script>
+        var player = videojs("myVideo", {
+            controls: true,
+            width: 320,
+            height: 240,
+            fluid: false,
+            plugins: {
+                record: {
+                    audio: true,
+                    video: true,
+                    maxLength: 10,
+                    debug: true
+                }
+            }
+        }, function () {
+            // print version information at startup
+            var msg = 'Using video.js ' + videojs.VERSION +
+                ' with videojs-record ' + videojs.getPluginVersion('record') +
+                ' and recordrtc ' + RecordRTC.version;
+            videojs.log(msg);
+        });
+        // error handling
+        player.on('deviceError', function () {
+            console.log('device error:', player.deviceErrorCode);
+        });
+        player.on('error', function (error) {
+            console.log('error:', error);
+        });
+        // user clicked the record button and started recording
+        player.on('startRecord', function () {
+            console.log('started recording!');
+        });
+        // user completed recording and stream is available
+        player.on('finishRecord', function () {
+            // the blob object contains the recorded data that
+            // can be downloaded by the user, stored on server etc.
+            console.log('finished recording: ', player.recordedData);
+
+            var formData = new FormData();
+            formData.append('audiovideo', player.recordedData.video);
+
+            // Execute the ajax request, in this case we have a very simple PHP script
+            // that accepts and save the uploaded "video" file
+            xhr('servers/upload-video.php', formData, function (fName) {
+                console.log("Video succesfully uploaded !");
+            });
+
+            // Helper function to send 
+            function xhr(url, data, callback) {
+                var request = new XMLHttpRequest();
+                request.onreadystatechange = function () {
+                    if (request.readyState == 4 && request.status == 200) {
+                        callback(location.href + request.responseText);
+                    }
+                };
+                request.open('POST', url);
+                request.send(data);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
