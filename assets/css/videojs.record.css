@@ -1,9 +1,11 @@
 /*!
 Default styles for videojs-record 2.4.1
 */
+
 @font-face {
   font-family: videojs-record;
-  src: url(../fonts/videojs-record.eot?#iefix) format("eot"); }
+  src: url(../fonts/videojs-record.eot?#iefix) format("eot"); 
+}
 
 @font-face {
   font-family: videojs-record;
